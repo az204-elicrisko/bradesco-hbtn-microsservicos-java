@@ -24,22 +24,24 @@ public class SongController {
 
     @GetMapping(path = "/allSongs")
     public List<Song> getAllSongs() {
-        // TODO
+        return songRepository.getAllSongs();
     }
 
     @GetMapping(path = "/findSong/{id}")
     public Song findSongById(@PathVariable Integer id) {
-        // TODO
+        return songRepository.getSongById(id);
     }
 
     @PostMapping(path = "/addSong", consumes = "application/json", produces = "application/json")
     public Song addSong(@RequestBody Song song) {
-        // TODO
+        songRepository.addSong(song);
+        return song;
     }
 
     @PutMapping(path = "/updateSong", consumes = "application/json", produces = "application/json")
-    public Song updadeSong(@RequestBody Song song) {
-        // TODO
+    public Song updateSong(@RequestBody Song song) {
+        songRepository.updateSong(song);
+        return song;
     }
 
     @DeleteMapping(path = "/removeSong", consumes = "application/json", produces = "application/json")

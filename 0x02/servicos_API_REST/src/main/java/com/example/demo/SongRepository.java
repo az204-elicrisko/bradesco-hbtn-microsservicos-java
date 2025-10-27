@@ -19,11 +19,16 @@ public class SongRepository {
     }
 
     public Song getSongById(Integer id) {
-        // TODO
+        for (Song s : list) {
+            if (s.getId().equals(id)) {
+                return s;
+            }
+        }
+        return null; // Retorna null se a música não for encontrada
     }
 
     public void addSong(Song s) {
-        // TODO
+        list.add(s);
     }
 
     public void updateSong(Song s) {
