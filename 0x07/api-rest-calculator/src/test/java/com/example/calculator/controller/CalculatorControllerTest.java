@@ -1,27 +1,30 @@
 package com.example.calculator.controller;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(CalculatorController.class)
 @DisplayName("Calculator Controller Test")
 class CalculatorControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mvc;
 
     // Testes para o endpoint welcome
     @Test
     @DisplayName("Deve retornar mensagem de boas-vindas")
     void messageWelcome() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/welcome"))
+        mvc.perform(get("/calculator-api/calculator/welcome"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string("Bem vindo à CALCULATOR API REST."));
@@ -31,7 +34,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve somar dois números positivos")
     void addNumbers() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/addNumbers")
+        mvc.perform(get("/calculator-api/calculator/addNumbers")
                         .param("number1", "10.5")
                         .param("number2", "5.3"))
                 .andDo(print())
@@ -42,7 +45,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve somar números com resultado zero")
     void addNumbersResultZero() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/addNumbers")
+        mvc.perform(get("/calculator-api/calculator/addNumbers")
                         .param("number1", "5")
                         .param("number2", "-5"))
                 .andDo(print())
@@ -53,7 +56,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve retornar erro quando number1 for nulo na soma")
     void testAddNumbersWithNullNumber1() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/addNumbers")
+        mvc.perform(get("/calculator-api/calculator/addNumbers")
                         .param("number2", "5"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
@@ -62,7 +65,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve retornar erro quando number2 for nulo na soma")
     void testAddNumbersWithNullNumber2() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/addNumbers")
+        mvc.perform(get("/calculator-api/calculator/addNumbers")
                         .param("number1", "5"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
@@ -72,7 +75,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve subtrair dois números corretamente")
     void subNumbers() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/subNumbers")
+        mvc.perform(get("/calculator-api/calculator/subNumbers")
                         .param("number1", "10")
                         .param("number2", "3"))
                 .andDo(print())
@@ -83,7 +86,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve subtrair resultando em número negativo")
     void testSubNumbersNegativeResult() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/subNumbers")
+        mvc.perform(get("/calculator-api/calculator/subNumbers")
                         .param("number1", "3")
                         .param("number2", "5"))
                 .andDo(print())
@@ -94,7 +97,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve retornar erro quando parâmetros forem nulos na subtração")
     void testSubNumbersWithNullParams() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/subNumbers")
+        mvc.perform(get("/calculator-api/calculator/subNumbers")
                         .param("number1", "5"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
@@ -104,7 +107,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve dividir dois números corretamente")
     void divideNumbers() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/divideNumbers")
+        mvc.perform(get("/calculator-api/calculator/divideNumbers")
                         .param("number1", "10")
                         .param("number2", "2"))
                 .andDo(print())
@@ -115,7 +118,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve dividir com resultado decimal")
     void testDivideNumbersDecimal() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/divideNumbers")
+        mvc.perform(get("/calculator-api/calculator/divideNumbers")
                         .param("number1", "7")
                         .param("number2", "2"))
                 .andDo(print())
@@ -126,7 +129,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve retornar erro ao dividir por zero")
     void testDivideByZero() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/divideNumbers")
+        mvc.perform(get("/calculator-api/calculator/divideNumbers")
                         .param("number1", "10")
                         .param("number2", "0"))
                 .andDo(print())
@@ -137,7 +140,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve retornar erro quando parâmetros forem nulos na divisão")
     void testDivideNumbersWithNullParams() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/divideNumbers")
+        mvc.perform(get("/calculator-api/calculator/divideNumbers")
                         .param("number1", "5"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
@@ -147,7 +150,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve calcular fatorial de 5")
     void factorial() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/factorial")
+        mvc.perform(get("/calculator-api/calculator/factorial")
                         .param("factorial", "5"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -157,7 +160,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve calcular fatorial de 0")
     void testFactorial0() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/factorial")
+        mvc.perform(get("/calculator-api/calculator/factorial")
                         .param("factorial", "0"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -167,7 +170,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve retornar erro para fatorial de número negativo")
     void testFactorialNegative() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/factorial")
+        mvc.perform(get("/calculator-api/calculator/factorial")
                         .param("factorial", "-5"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -177,7 +180,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve retornar erro quando parâmetro factorial for nulo")
     void testFactorialWithNullParam() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/factorial"))
+        mvc.perform(get("/calculator-api/calculator/factorial"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
@@ -186,7 +189,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve calcular dias entre duas datas")
     void calculeDayBetweenDate() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/calculeDayBetweenDate")
+        mvc.perform(get("/calculator-api/calculator/calculeDayBetweenDate")
                         .param("localDate1", "2020-03-15")
                         .param("localDate2", "2020-03-29"))
                 .andDo(print())
@@ -197,7 +200,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve calcular dias entre datas em ordem inversa")
     void testCalculeDayBetweenDateReversed() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/calculeDayBetweenDate")
+        mvc.perform(get("/calculator-api/calculator/calculeDayBetweenDate")
                         .param("localDate1", "2020-03-29")
                         .param("localDate2", "2020-03-15"))
                 .andDo(print())
@@ -208,7 +211,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve retornar 0 para datas iguais")
     void testCalculeDayBetweenSameDates() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/calculeDayBetweenDate")
+        mvc.perform(get("/calculator-api/calculator/calculeDayBetweenDate")
                         .param("localDate1", "2020-03-15")
                         .param("localDate2", "2020-03-15"))
                 .andDo(print())
@@ -219,7 +222,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve retornar erro para formato de data inválido")
     void testCalculeDayBetweenDateInvalidFormat() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/calculeDayBetweenDate")
+        mvc.perform(get("/calculator-api/calculator/calculeDayBetweenDate")
                         .param("localDate1", "2020/03/15")
                         .param("localDate2", "2020-03-29"))
                 .andDo(print())
@@ -229,7 +232,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve retornar erro quando parâmetros de data forem nulos")
     void testCalculeDayBetweenDateWithNullParams() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/calculeDayBetweenDate")
+        mvc.perform(get("/calculator-api/calculator/calculeDayBetweenDate")
                         .param("localDate1", "2020-03-15"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
@@ -239,7 +242,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve converter 5 para binário")
     void integerToBinary() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/integerToBinary")
+        mvc.perform(get("/calculator-api/calculator/integerToBinary")
                         .param("number1", "5"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -249,7 +252,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve converter 1 para binário")
     void testIntegerToBinary1() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/integerToBinary")
+        mvc.perform(get("/calculator-api/calculator/integerToBinary")
                         .param("number1", "1"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -259,7 +262,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve converter 20 para binário")
     void testIntegerToBinary20() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/integerToBinary")
+        mvc.perform(get("/calculator-api/calculator/integerToBinary")
                         .param("number1", "20"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -269,7 +272,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve converter 0 para binário")
     void testIntegerToBinary0() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/integerToBinary")
+        mvc.perform(get("/calculator-api/calculator/integerToBinary")
                         .param("number1", "0"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -279,7 +282,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve retornar erro quando parâmetro for nulo na conversão para binário")
     void testIntegerToBinaryWithNullParam() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/integerToBinary"))
+        mvc.perform(get("/calculator-api/calculator/integerToBinary"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
@@ -288,7 +291,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve converter 1 para hexadecimal")
     void testIntegerToHexadecimal1() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/integerToHexadecimal")
+        mvc.perform(get("/calculator-api/calculator/integerToHexadecimal")
                         .param("number1", "1"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -298,7 +301,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve converter 55 para hexadecimal")
     void integerToHexadecimal() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/integerToHexadecimal")
+        mvc.perform(get("/calculator-api/calculator/integerToHexadecimal")
                         .param("number1", "55"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -308,7 +311,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve converter 170 para hexadecimal")
     void testIntegerToHexadecimal170() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/integerToHexadecimal")
+        mvc.perform(get("/calculator-api/calculator/integerToHexadecimal")
                         .param("number1", "170"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -318,7 +321,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve converter 255 para hexadecimal")
     void testIntegerToHexadecimal255() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/integerToHexadecimal")
+        mvc.perform(get("/calculator-api/calculator/integerToHexadecimal")
                         .param("number1", "255"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -328,7 +331,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve converter 0 para hexadecimal")
     void testIntegerToHexadecimal0() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/integerToHexadecimal")
+        mvc.perform(get("/calculator-api/calculator/integerToHexadecimal")
                         .param("number1", "0"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -338,7 +341,7 @@ class CalculatorControllerTest {
     @Test
     @DisplayName("Deve retornar erro quando parâmetro for nulo na conversão para hexadecimal")
     void testIntegerToHexadecimalWithNullParam() throws Exception {
-        mockMvc.perform(get("/calculator-api/calculator/integerToHexadecimal"))
+        mvc.perform(get("/calculator-api/calculator/integerToHexadecimal"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
